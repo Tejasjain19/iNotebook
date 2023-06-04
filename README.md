@@ -9,7 +9,7 @@
 - Node JS
 - Mongo DB 
 
-## Screenshots
+## Screenshots of application
 # Sign up page 
 ![image](https://github.com/Tejasjain19/iNotebook/assets/77677089/48ca3e13-dfdb-4794-9893-5e1b30b93512)
 # Login page
