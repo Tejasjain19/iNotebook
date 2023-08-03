@@ -6,39 +6,46 @@ import { useNavigate } from 'react-router-dom';
 import noteContext from '../context/notes/noteContext';
 import NoteItem from './NoteItem';
 
-
 export default function Notes(props) {
     const { showAlert } = props;
     let navigate = useNavigate();
     const context = useContext(noteContext);
     const { notes, fetchNotes, editNote } = context;
+
     useEffect(() => {
+        // Check if user is authenticated
         if (localStorage.getItem('token')) {
-            fetchNotes();
+            fetchNotes(); // Fetch notes from the server
+        } else {
+            navigate("/login", { replace: true }); // Redirect to login page if not authenticated
         }
-        else {
-            navigate("/login", { replace: true });
-        }
-    }, [])
+    }, []);
 
     const refEdit = useRef(null);
     const refClose = useRef(null);
-    const [note, setNote] = useState({ id: "", e_title: "", e_description: "", e_tag: "" })
+    const [note, setNote] = useState({ id: "", e_title: "", e_description: "", e_tag: "" });
 
     const updateNote = (currentNote) => {
-        refEdit.current.click();
-        setNote({ id: currentNote._id, e_title: currentNote.title, e_description: currentNote.description, e_tag: currentNote.tag });
-    }
+        refEdit.current.click(); // Programmatically trigger the modal open
+        setNote({
+            id: currentNote._id,
+            e_title: currentNote.title,
+            e_description: currentNote.description,
+            e_tag: currentNote.tag
+        });
+    };
+
     const onChange = (e) => {
-        setNote({ ...note, [e.target.name]: e.target.value })
-    }
+        setNote({ ...note, [e.target.name]: e.target.value });
+    };
 
     const handleClick = (e) => {
         e.preventDefault();
         editNote(note.id, note.e_title, note.e_description, note.e_tag);
-        refClose.current.click();
+        refClose.current.click(); // Programmatically trigger the modal close
         showAlert("Note updated successfully", "success");
-    }
+    };
+
     return (
         <>
             {/* Button trigger modal */}
@@ -85,5 +92,16 @@ export default function Notes(props) {
                 })}
             </div>
         </>
-    )
+    );
 }
+
+
+
+// The Notes component is a functional component that renders the list of notes.
+// The useEffect hook is used to fetch notes from the server when the component mounts. If the user is not authenticated, it redirects to the login page.
+// The refEdit and refClose refs are used to programmatically trigger the modal open and close.
+// The note state holds the values for editing a note.
+// The updateNote function is called when an edit icon is clicked, and it opens the modal with the current note's values.
+// The onChange function updates the note state as the user types in the input fields.
+// The handleClick function is called when the "Update Note" button is clicked. It calls the editNote function from the noteContext, passes the updated note details, and shows an alert indicating that the note was updated successfully.
+// The JSX code renders a modal for editing a note, a list of notes using the NoteItem component, and a message when there are no notes to display.

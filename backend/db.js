@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 async function connectToDatabase() {
   try {
-    await mongoose.connect('mongodb://localhost:27017/', {
+    await mongoose.connect('mongodb+srv://tejas:tejas@cluster0.k3ifoeo.mongodb.net/?retryWrites=true&w=majority', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -12,5 +12,4 @@ async function connectToDatabase() {
     console.error('Error connecting to MongoDB:', error.message);
   }
 }
-
 connectToDatabase();

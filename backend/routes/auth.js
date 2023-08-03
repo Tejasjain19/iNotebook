@@ -8,16 +8,17 @@ var jwt = require("jsonwebtoken");
 
 const JWT_SECRET = "Have$omeNote$";
 
-// ROUTE 1 : Create a user using : POST "api/auth/createUser".Doesn't require authentication
+// ROUTE 1 : Create a user using : POST "api/auth/createUser". Doesn't require authentication
 router.post(
   "/createUser",
   [
+    // Request body validation using express-validator
     body("name", "Name should not be Empty").notEmpty(), // name must not be empty
     body("name", "Name must only contain alphabets").isAlpha(), // name must be a string
     body("email", "Enter a valid email").isEmail(), // email must be an email
     body("password", "Password must contain minimum 8 characters").isLength({
       min: 8,
-    }), // password should be minimum of 8 chars
+    }), // password should be a minimum of 8 chars
   ],
   async (req, res) => {
     let success = false;
@@ -26,7 +27,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ success, errors: errors.array() });
     }
-    // check whether user email exist
+    // check whether user email exists
     try {
       let user = await User.findOne({ email: req.body.email });
       if (user) {
@@ -37,7 +38,7 @@ router.post(
 
       const salt = await bcrypt.genSalt(10);
       const secPass = await bcrypt.hash(req.body.password, salt);
-      // Creating new user
+      // Creating a new user
       user = await User.create({
         name: req.body.name,
         email: req.body.email,
@@ -46,7 +47,7 @@ router.post(
 
       const data = {
         user: {
-          id: user.id, //since id is unique
+          id: user.id, // since id is unique
         },
       };
 
@@ -64,8 +65,9 @@ router.post(
 router.post(
   "/login",
   [
+    // Request body validation using express-validator
     body("email", "Enter a valid email").isEmail(), // email must be an email
-    body("password", "Password cannot be blank").exists(), // password should be minimum of 8 chars
+    body("password", "Password cannot be blank").exists(), // password should not be blank
   ],
   async (req, res) => {
     let success = false;
@@ -109,14 +111,14 @@ router.post(
   }
 );
 
-// ROUTE 3 : Get logged in  user details using: POST "/api/auth/getUser"
+// ROUTE 3 : Get logged-in user details using: POST "/api/auth/getUser"
 router.post(
   "/getUser",
-  fetchuser,
+  fetchuser, // Middleware to fetch user details from the authentication token
   async (req, res) => {
     try {
       const userId = req.user.id;
-      const user = await User.findById(userId).select("-password"); // getting user details other than password
+      const user = await User.findById(userId).select("-password"); // Getting user details other than the password
       res.send(user);
     } catch (error) {
       console.log({ error: error.message });
