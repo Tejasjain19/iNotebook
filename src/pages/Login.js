@@ -9,7 +9,7 @@ export default function Login(props) {
   
   const navigate = useNavigate(); // Navigation hook for redirecting
   
-  const host = 'http://localhost:5000'; // API server base URL
+  const host = 'https://inotebook-backend.glitch.me'; // API server base URL
 
   // Event handler for login button click
   const handleClick = async (e) => {

@@ -9,11 +9,13 @@ export default function Signup(props) {
   
   const navigate = useNavigate(); // Navigation hook for redirecting
   
-  const host = 'http://localhost:5000'; // API server base URL
+  const host = 'https://inotebook-backend.glitch.me'; // API server base URL
 
   // Event handler for signup button click
   const handleClick = async (e) => {
     e.preventDefault();
+   
+console.log( JSON.stringify({ name: signup.name, email: signup.email, password: signup.password }))
 
     // API call to createUser endpoint
     const response = await fetch(`${host}/api/auth/createUser`, {
