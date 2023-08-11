@@ -15,7 +15,6 @@ export default function Signup(props) {
   const handleClick = async (e) => {
     e.preventDefault();
    
-console.log( JSON.stringify({ name: signup.name, email: signup.email, password: signup.password }))
 
     // API call to createUser endpoint
     const response = await fetch(`${host}/api/auth/createUser`, {
