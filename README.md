@@ -1,7 +1,7 @@
 # iNotebook
 
 Website for taking and managing notes using MERN
-App Link :- https://tejas-inotebook.netlify.app/
+App Link :- https://tejas-inotebook.netlify.app/   <br>
 Backend deployed Link :- https://inotebook-backend.glitch.me/
 
 ## Tech stack
